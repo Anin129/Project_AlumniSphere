@@ -1,6 +1,14 @@
 "use client";
 
-import React, { useState, ReactNode } from "react";
+import React, { useState, ReactNode ,useEffect} from "react";
+
+// -------------------for slider animation-------------------------------
+import Link from "next/link"
+import { motion, useAnimation,useMotionValue } from "framer-motion"
+// --------------------------------------
+
+
+
 import {
   Video,
   Trophy,
@@ -25,59 +33,61 @@ import {
   Zap,
 } from "lucide-react";
 
-// ---------------- FeatureCard ----------------
-type FeatureCardProps = {
-  icon: ReactNode;
-  title: string;
-  description: string;
-  index: number;
-  color?: "blue" | "green" | "orange" | "purple" | "indigo" | "emerald";
-};
+// ---------------- FeatureCard(initial) ----------------
+// type FeatureCardProps = {
+//   icon: ReactNode;
+//   title: string;
+//   description: string;
+//   index: number;
+//   color?: "blue" | "green" | "orange" | "purple" | "indigo" | "emerald";
+// };
 
-const FeatureCard: React.FC<FeatureCardProps> = ({
-  icon,
-  title,
-  description,
-  index,
-  color = "blue",
-}) => {
-  const colorVariants: Record<NonNullable<FeatureCardProps["color"]>, string> = {
-    blue: "from-blue-500 to-purple-600",
-    green: "from-green-500 to-teal-600",
-    orange: "from-orange-500 to-red-600",
-    purple: "from-purple-500 to-pink-600",
-    indigo: "from-indigo-500 to-blue-600",
-    emerald: "from-emerald-500 to-cyan-600",
-  };
+// const FeatureCard: React.FC<FeatureCardProps> = ({
+//   icon,
+//   title,
+//   description,
+//   index,
+//   color = "blue",
+// }) => {
+//   const colorVariants: Record<NonNullable<FeatureCardProps["color"]>, string> = {
+//     blue: "from-blue-500 to-purple-600",
+//     green: "from-green-500 to-teal-600",
+//     orange: "from-orange-500 to-red-600",
+//     purple: "from-purple-500 to-pink-600",
+//     indigo: "from-indigo-500 to-blue-600",
+//     emerald: "from-emerald-500 to-cyan-600",
+//   };
 
-  return (
-    <div
-      className="relative bg-white/80 backdrop-blur-lg border border-white/30 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 group feature-card overflow-hidden"
-      style={{ animationDelay: `${index * 100}ms` }}
-    >
-      {/* Animated gradient border on hover */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
+//   return (
+//     <div
+//       className="relative bg-white/80 backdrop-blur-lg border border-white/30 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 group feature-card overflow-hidden"
+//       style={{ animationDelay: `${index * 100}ms` }}
+//     >
+//       {/* Animated gradient border on hover */}
+//       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
 
-      <div className="relative z-10 flex flex-col items-center text-center">
-        <div
-          className={`mb-8 p-5 bg-gradient-to-br ${colorVariants[color]} rounded-3xl text-white group-hover:scale-125 transition-all duration-500 shadow-lg group-hover:shadow-xl`}
-        >
-          {icon}
-        </div>
-        <h3 className="text-2xl font-bold text-gray-800 mb-6 group-hover:text-gray-900 transition-colors">
-          {title}
-        </h3>
-        <p className="text-gray-600 leading-relaxed text-lg group-hover:text-gray-700 transition-colors">
-          {description}
-        </p>
+//       <div className="relative z-10 flex flex-col items-center text-center">
+//         <div
+//           className={`mb-8 p-5 bg-gradient-to-br ${colorVariants[color]} rounded-3xl text-white group-hover:scale-125 transition-all duration-500 shadow-lg group-hover:shadow-xl`}
+//         >
+//           {icon}
+//         </div>
+//         <h3 className="text-2xl font-bold text-gray-800 mb-6 group-hover:text-gray-900 transition-colors">
+//           {title}
+//         </h3>
+//         <p className="text-gray-600 leading-relaxed text-lg group-hover:text-gray-700 transition-colors">
+//           {description}
+//         </p>
 
-        {/* Decorative elements */}
-        <div className="absolute top-4 right-4 w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full opacity-60 group-hover:opacity-100 transition-opacity"></div>
-        <div className="absolute bottom-4 left-4 w-1 h-1 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full opacity-40 group-hover:opacity-80 transition-opacity"></div>
-      </div>
-    </div>
-  );
-};
+//         {/* Decorative elements */}
+//         <div className="absolute top-4 right-4 w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full opacity-60 group-hover:opacity-100 transition-opacity"></div>
+//         <div className="absolute bottom-4 left-4 w-1 h-1 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full opacity-40 group-hover:opacity-80 transition-opacity"></div>
+//       </div>
+//     </div>
+//   );
+// };
+// ----------------------- FeatureCard --------------------------
+
 
 // ---------------- SidebarLink ----------------
 type SidebarLinkProps = {
@@ -215,92 +225,94 @@ export default function AlumniSphere() {
     }
   };
 
-  const features: Omit<FeatureCardProps, "index">[] = [
-    {
-      icon: <Video className="h-10 w-10" />,
-      title: "Video Messaging & Calls",
-      description:
-        "Connect face-to-face with alumni worldwide through HD video messaging and group calls. Share experiences and build meaningful relationships instantly.",
-      color: "blue",
-    },
-    {
-      icon: <Users className="h-10 w-10" />,
-      title: "Smart Alumni Directory",
-      description:
-        "Discover and connect with alumni using intelligent search filters by location, industry, graduation year, and interests. Build your professional network effortlessly.",
-      color: "green",
-    },
-    {
-      icon: <Trophy className="h-10 w-10" />,
-      title: "Gamified Networking",
-      description:
-        "Earn points, badges, and achievements as you engage with your alumni community. Make networking fun and rewarding with our comprehensive gamification system.",
-      color: "orange",
-    },
-    {
-      icon: <UserCheck className="h-10 w-10" />,
-      title: "Structured Mentorship",
-      description:
-        "Join curated mentoring programs or become a mentor yourself. Guide newcomers and learn from experienced professionals with goal-tracking tools.",
-      color: "purple",
-    },
-    {
-      icon: <Calendar className="h-10 w-10" />,
-      title: "Event Management Hub",
-      description:
-        "Create, discover, and attend alumni events seamlessly. From virtual reunions to professional workshops, stay connected with interactive event features.",
-      color: "indigo",
-    },
-    {
-      icon: <Briefcase className="h-10 w-10" />,
-      title: "Career Opportunities",
-      description:
-        "Access exclusive job postings, internships, and freelance opportunities shared by alumni. Advance your career within your trusted network.",
-      color: "emerald",
-    },
-    {
-      icon: <MessageSquare className="h-10 w-10" />,
-      title: "Discussion Forums",
-      description:
-        "Engage in industry-specific forums and special interest groups. Share knowledge, ask questions, and contribute to meaningful conversations.",
-      color: "blue",
-    },
-    {
-      icon: <MapPin className="h-10 w-10" />,
-      title: "Location-Based Connect",
-      description:
-        "Find and meet alumni in your city or travel destinations. Organize local meetups and expand your global network with location intelligence.",
-      color: "green",
-    },
-    {
-      icon: <GraduationCap className="h-10 w-10" />,
-      title: "Alumni Success Stories",
-      description:
-        "Share and discover inspiring career journeys, achievements, and milestones. Celebrate success and learn from diverse alumni experiences.",
-      color: "orange",
-    },
-    {
-      icon: <Star className="h-10 w-10" />,
-      title: "Skill Exchange Platform",
-      description:
-        "Offer your expertise or learn new skills from fellow alumni. Create a collaborative learning environment with peer-to-peer knowledge sharing.",
-      color: "purple",
-    },
-    {
-      icon: <Search className="h-10 w-10" />,
-      title: "Advanced Search & Filters",
-      description:
-        "Find exactly who you're looking for with powerful search capabilities. Filter by skills, location, experience level, and availability.",
-      color: "indigo",
-    },
-    {
-      icon: <Heart className="h-10 w-10" />,
-      title: "Alumni Giving & Causes",
-      description:
-        "Support meaningful causes and fundraising campaigns initiated by fellow alumni. Make a positive impact together as a community.",
-      color: "emerald",
-    },
-  ];
+  // ---------------- FeatureCard(initial) ----------------
+  // const features: Omit<FeatureCardProps, "index">[] = [
+  //   {
+  //     icon: <Video className="h-10 w-10" />,
+  //     title: "Video Messaging & Calls",
+  //     description:
+  //       "Connect face-to-face with alumni worldwide through HD video messaging and group calls. Share experiences and build meaningful relationships instantly.",
+  //     color: "blue",
+  //   },
+  //   {
+  //     icon: <Users className="h-10 w-10" />,
+  //     title: "Smart Alumni Directory",
+  //     description:
+  //       "Discover and connect with alumni using intelligent search filters by location, industry, graduation year, and interests. Build your professional network effortlessly.",
+  //     color: "green",
+  //   },
+  //   {
+  //     icon: <Trophy className="h-10 w-10" />,
+  //     title: "Gamified Networking",
+  //     description:
+  //       "Earn points, badges, and achievements as you engage with your alumni community. Make networking fun and rewarding with our comprehensive gamification system.",
+  //     color: "orange",
+  //   },
+  //   {
+  //     icon: <UserCheck className="h-10 w-10" />,
+  //     title: "Structured Mentorship",
+  //     description:
+  //       "Join curated mentoring programs or become a mentor yourself. Guide newcomers and learn from experienced professionals with goal-tracking tools.",
+  //     color: "purple",
+  //   },
+  //   {
+  //     icon: <Calendar className="h-10 w-10" />,
+  //     title: "Event Management Hub",
+  //     description:
+  //       "Create, discover, and attend alumni events seamlessly. From virtual reunions to professional workshops, stay connected with interactive event features.",
+  //     color: "indigo",
+  //   },
+  //   {
+  //     icon: <Briefcase className="h-10 w-10" />,
+  //     title: "Career Opportunities",
+  //     description:
+  //       "Access exclusive job postings, internships, and freelance opportunities shared by alumni. Advance your career within your trusted network.",
+  //     color: "emerald",
+  //   },
+  //   {
+  //     icon: <MessageSquare className="h-10 w-10" />,
+  //     title: "Discussion Forums",
+  //     description:
+  //       "Engage in industry-specific forums and special interest groups. Share knowledge, ask questions, and contribute to meaningful conversations.",
+  //     color: "blue",
+  //   },
+  //   {
+  //     icon: <MapPin className="h-10 w-10" />,
+  //     title: "Location-Based Connect",
+  //     description:
+  //       "Find and meet alumni in your city or travel destinations. Organize local meetups and expand your global network with location intelligence.",
+  //     color: "green",
+  //   },
+  //   {
+  //     icon: <GraduationCap className="h-10 w-10" />,
+  //     title: "Alumni Success Stories",
+  //     description:
+  //       "Share and discover inspiring career journeys, achievements, and milestones. Celebrate success and learn from diverse alumni experiences.",
+  //     color: "orange",
+  //   },
+  //   {
+  //     icon: <Star className="h-10 w-10" />,
+  //     title: "Skill Exchange Platform",
+  //     description:
+  //       "Offer your expertise or learn new skills from fellow alumni. Create a collaborative learning environment with peer-to-peer knowledge sharing.",
+  //     color: "purple",
+  //   },
+  //   {
+  //     icon: <Search className="h-10 w-10" />,
+  //     title: "Advanced Search & Filters",
+  //     description:
+  //       "Find exactly who you're looking for with powerful search capabilities. Filter by skills, location, experience level, and availability.",
+  //     color: "indigo",
+  //   },
+  //   {
+  //     icon: <Heart className="h-10 w-10" />,
+  //     title: "Alumni Giving & Causes",
+  //     description:
+  //       "Support meaningful causes and fundraising campaigns initiated by fellow alumni. Make a positive impact together as a community.",
+  //     color: "emerald",
+  //   },
+  // ];
+  // ----------------------- FeatureCard --------------------------
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -372,7 +384,7 @@ export default function AlumniSphere() {
               <span>Comprehensive Features</span>
             </div>
 
-            <h2 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-8">
+            <h2 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-8 py-2.5">
               Everything You Need to Connect
             </h2>
 
@@ -385,7 +397,9 @@ export default function AlumniSphere() {
 
           {/* Feature Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 mb-16">
-            {features.map((feature, index) => (
+
+            {/*-------------------- Individual Feature Cards(initial)------------------------- */}
+            {/* {features.map((feature, index) => (
               <FeatureCard
                 key={index}
                 index={index}
@@ -394,7 +408,12 @@ export default function AlumniSphere() {
                 description={feature.description}
                 color={feature.color}
               />
-            ))}
+            ))} */}
+            {/* -------------------------------------------------------------------------------------- */}
+
+
+            <ContinuousSlidingCards />
+            
           </div>
 
           {/* Trust Section */}
@@ -415,6 +434,89 @@ export default function AlumniSphere() {
   );
 }
 
+export function ContinuousSlidingCards() {
+  const [isPaused, setIsPaused] = useState(false)
+  const x = useMotionValue(0) // track x position
+  const controls = useAnimation()
+
+  const colorVariants = {
+    blue: "from-blue-500 to-purple-600",
+    green: "from-green-500 to-teal-600",
+    orange: "from-orange-500 to-red-600",
+    purple: "from-purple-500 to-pink-600",
+    indigo: "from-indigo-500 to-blue-600",
+    emerald: "from-emerald-500 to-cyan-600",
+  }
+
+  const cards = [
+    
+    { icon: <Video className="h-10 w-10" />,bg_img:"/bg_video_message.jpg", title: "Video Messaging & Calls", description: "Connect face-to-face with alumni worldwide through HD video messaging and group calls. Share experiences and build meaningful relationships instantly.", color: "blue", href: "#" },
+    { icon: <Trophy className="h-10 w-10" />,bg_img:"/bg_gemified.jpg", title: "Gamified Networking", description: "Earn points, badges, and achievements as you engage with your alumni community. Make networking fun and rewarding with our comprehensive gamification system.", color: "orange", href: "#" },
+    { icon: <UserCheck className="h-10 w-10" />,bg_img:"/bg_mentorship.jpg", title: "Structured Mentorship", description: "Join curated mentoring programs or become a mentor yourself. Guide newcomers and learn from experienced professionals with goal-tracking tools.", color: "purple", href: "#" },
+    { icon: <Calendar className="h-10 w-10" />,bg_img:"/bg_event_management.jpg", title: "Event Management Hub", description: "Create, discover, and attend alumni events seamlessly. From virtual reunions to professional workshops, stay connected with interactive event features.", color: "indigo", href: "#" },
+    { icon: <Briefcase className="h-10 w-10" />,bg_img:"/bg_career_opportunity.jpg", title: "Career Opportunities", description: "Access exclusive job postings, internships, and freelance opportunities shared by alumni. Advance your career within your trusted network.", color: "emerald", href: "#" },
+    { icon: <MessageSquare className="h-10 w-10" />,bg_img:"/bg_discuss_forum.jpg", title: "Discussion Forums", description: "Engage in industry-specific forums and special interest groups. Share knowledge, ask questions, and contribute to meaningful conversations.", color: "blue", href: "#" },
+    { icon: <Star className="h-10 w-10" />,bg_img:"/bg_skill_exchange.jpg", title: "Skill Exchange Platform", description: "Offer your expertise or learn new skills from fellow alumni. Create a collaborative learning environment with peer-to-peer knowledge sharing.", color: "purple", href: "#" },
+    { icon: <Heart className="h-10 w-10" />,bg_img:"/bg_alumni_giving.jpg", title: "Alumni Giving & Causes", description: "Support meaningful causes and fundraising campaigns initiated by fellow alumni. Make a positive impact together as a community.", color: "emerald", href: "#" },
+  ]
+
+  useEffect(() => {
+    if (!isPaused) {
+      controls.start({
+        x: [x.get(), -3000], // adjust based on total width of cards
+        transition: {
+          repeat: Infinity,
+          duration: 20,
+          ease: "linear",
+        },
+      })
+    } else {
+      controls.stop() // pause at current position
+    }
+  }, [isPaused, controls])
+
+  return (
+    <div
+      className="relative w-[95vw] justify-center p-0 overflow-hidden bg-transparent from-gray-50 to-white py-2"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      <motion.div
+        className="flex gap-8 p-2 w-max cursor-grab active:cursor-grabbing"
+        animate={controls}
+        drag="x"
+        dragConstraints={{ left: -3000, right: 0 }} // allow dragging
+        style={{ x }}
+      >
+        {[...cards, ...cards].map((card, idx) => (
+          // <Link key={idx} href={card.href} className="min-w-[280px] w-[500px]  flex-shrink-0">
+            <div key={idx} className=" h-[400px] w-[800px] bg-gradient-to-r from-violet-300 to-violet-200 via-pink-100 flex flex-row  flex-shrink-0 relative backdrop-blur-lg border border-white/30 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 group overflow-hidden" >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl">
+              </div>
+
+              <div className="relative z-10 flex flex-col items-center text-center w-[50%]" >
+                <img src={card.bg_img} alt="" className="h-full w-[450px] object-cover rounded-2xl"/>
+              </div>
+
+              <div className="w-[50%] relative grid-cols-1 z-10 flex flex-col items-center text-center">
+                <div className={`mb-8 p-5 text-white rounded-3xl  group-hover:scale-125 transition-all duration-500 shadow-lg group-hover:shadow-xl bg-gradient-to-br ${colorVariants[card.color as keyof typeof colorVariants]}`}>
+                  {card.icon}
+                </div>
+
+                <h3 className="text-2xl font-bold  mb-6 group-hover:text-gray-900 transition-colors">
+                  {card.title}
+                </h3>
+                <p className=" leading-relaxed text-lg group-hover:text-gray-700 transition-colors p-2">
+                  {card.description}
+                </p>
+              </div>
+            </div>
+          // </Link>
+        ))}
+      </motion.div>
+    </div>
+  )
+}
 
 
 
