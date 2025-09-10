@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const socialLinksSchema = new mongoose.Schema(
   {
@@ -15,6 +16,8 @@ const studentSchema = new mongoose.Schema(
     // Identity
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+    // Auth
+    password: { type: String, trim: true, select: false },
     phone: { type: String, trim: true },
     avatarUrl: { type: String, trim: true },
 
@@ -56,6 +59,20 @@ const studentSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Hash password before save if modified
+studentSchema.pre('save', async function(next) {
+  try {
+    if (!this.isModified('password') || !this.password) return next();
+    const isAlreadyHashed = typeof this.password === 'string' && this.password.startsWith('$2');
+    if (isAlreadyHashed) return next();
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 // Gamification methods
 studentSchema.methods.recordDailyLogin = function() {
@@ -147,9 +164,8 @@ studentSchema.methods.addAchievement = function(achievement) {
 
 // Useful indexes similar to alumni
 studentSchema.index({ graduationYear: 1, department: 1 });
-studentSchema.index({ skills: 1 });
 studentSchema.index({ totalStars: -1 }); // For leaderboards
 studentSchema.index({ dailyLoginStreak: -1 }); // For streak leaderboards
 
-module.exports = mongoose.models.Student || mongoose.model('Student', studentSchema);
+export default mongoose.models.Student || mongoose.model('Student', studentSchema);
 
