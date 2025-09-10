@@ -320,7 +320,7 @@ export default function AlumniSphere() {
       {!isSidebarOpen && (
         <button
           onClick={() => setSidebarOpen(true)}
-          className="fixed top-6 left-6 z-50 bg-gradient-to-r from-blue-500 via-purple-600 to-indigo-600 text-white p-4 rounded-2xl shadow-2xl hover:scale-110 hover:shadow-3xl transition-all duration-300 border border-white/20 backdrop-blur-sm"
+          className="fixed top-[70px] left-6 z-50 bg-gradient-to-r from-blue-500 via-purple-600 to-indigo-600 text-white p-4 rounded-2xl shadow-2xl hover:scale-110 hover:shadow-3xl transition-all duration-300 border border-white/20 backdrop-blur-sm"
         >
           <span className="text-xl font-bold">☰</span>
         </button>
