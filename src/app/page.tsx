@@ -1,13 +1,20 @@
 "use client";
 
-import React, { useState, ReactNode ,useEffect} from "react";
+import React, { useState, ReactNode, useEffect } from "react";
 
 // -------------------for slider animation-------------------------------
-import Link from "next/link"
-import { motion, useAnimation,useMotionValue } from "framer-motion"
+import Link from "next/link";
+import { motion, useAnimation, useMotionValue } from "framer-motion";
+import Autoplay from "embla-carousel-autoplay";
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 // --------------------------------------
-
-
 
 import {
   Video,
@@ -88,7 +95,6 @@ import {
 // };
 // ----------------------- FeatureCard --------------------------
 
-
 // ---------------- SidebarLink ----------------
 type SidebarLinkProps = {
   link: { id: string; label: string; icon: ReactNode };
@@ -96,7 +102,11 @@ type SidebarLinkProps = {
   onClick: () => void;
 };
 
-const SidebarLink: React.FC<SidebarLinkProps> = ({ link, isActive, onClick }) => (
+const SidebarLink: React.FC<SidebarLinkProps> = ({
+  link,
+  isActive,
+  onClick,
+}) => (
   <button
     onClick={onClick}
     className={`w-full flex items-center space-x-4 px-5 py-4 rounded-xl transition-all duration-300 group ${
@@ -146,10 +156,26 @@ const Sidebar: React.FC<SidebarProps> = ({
     { id: "profile", label: "Profile", icon: <User className="h-6 w-6" /> },
     { id: "network", label: "Network", icon: <Users className="h-6 w-6" /> },
     { id: "events", label: "Events", icon: <Calendar className="h-6 w-6" /> },
-    { id: "opportunities", label: "Opportunities", icon: <Briefcase className="h-6 w-6" /> },
-    { id: "mentorship", label: "Mentorship", icon: <GraduationCap className="h-6 w-6" /> },
-    { id: "achievements", label: "Achievements", icon: <Trophy className="h-6 w-6" /> },
-    { id: "settings", label: "Settings", icon: <Settings className="h-6 w-6" /> },
+    {
+      id: "opportunities",
+      label: "Opportunities",
+      icon: <Briefcase className="h-6 w-6" />,
+    },
+    {
+      id: "mentorship",
+      label: "Mentorship",
+      icon: <GraduationCap className="h-6 w-6" />,
+    },
+    {
+      id: "achievements",
+      label: "Achievements",
+      icon: <Trophy className="h-6 w-6" />,
+    },
+    {
+      id: "settings",
+      label: "Settings",
+      icon: <Settings className="h-6 w-6" />,
+    },
   ];
 
   return (
@@ -397,7 +423,6 @@ export default function AlumniSphere() {
 
           {/* Feature Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 mb-16">
-
             {/*-------------------- Individual Feature Cards(initial)------------------------- */}
             {/* {features.map((feature, index) => (
               <FeatureCard
@@ -411,9 +436,7 @@ export default function AlumniSphere() {
             ))} */}
             {/* -------------------------------------------------------------------------------------- */}
 
-
             <ContinuousSlidingCards />
-            
           </div>
 
           {/* Trust Section */}
@@ -435,9 +458,9 @@ export default function AlumniSphere() {
 }
 
 export function ContinuousSlidingCards() {
-  const [isPaused, setIsPaused] = useState(false)
-  const x = useMotionValue(0) // track x position
-  const controls = useAnimation()
+  const [isPaused, setIsPaused] = useState(false);
+  const x = useMotionValue(0); // track x position
+  const controls = useAnimation();
 
   const colorVariants = {
     blue: "from-blue-500 to-purple-600",
@@ -446,34 +469,97 @@ export function ContinuousSlidingCards() {
     purple: "from-purple-500 to-pink-600",
     indigo: "from-indigo-500 to-blue-600",
     emerald: "from-emerald-500 to-cyan-600",
-  }
+  };
 
   const cards = [
-    
-    { icon: <Video className="h-10 w-10" />,bg_img:"/bg_video_message.jpg", title: "Video Messaging & Calls", description: "Connect face-to-face with alumni worldwide through HD video messaging and group calls. Share experiences and build meaningful relationships instantly.", color: "blue", href: "#" },
-    { icon: <Trophy className="h-10 w-10" />,bg_img:"/bg_gemified.jpg", title: "Gamified Networking", description: "Earn points, badges, and achievements as you engage with your alumni community. Make networking fun and rewarding with our comprehensive gamification system.", color: "orange", href: "#" },
-    { icon: <UserCheck className="h-10 w-10" />,bg_img:"/bg_mentorship.jpg", title: "Structured Mentorship", description: "Join curated mentoring programs or become a mentor yourself. Guide newcomers and learn from experienced professionals with goal-tracking tools.", color: "purple", href: "#" },
-    { icon: <Calendar className="h-10 w-10" />,bg_img:"/bg_event_management.jpg", title: "Event Management Hub", description: "Create, discover, and attend alumni events seamlessly. From virtual reunions to professional workshops, stay connected with interactive event features.", color: "indigo", href: "#" },
-    { icon: <Briefcase className="h-10 w-10" />,bg_img:"/bg_career_opportunity.jpg", title: "Career Opportunities", description: "Access exclusive job postings, internships, and freelance opportunities shared by alumni. Advance your career within your trusted network.", color: "emerald", href: "#" },
-    { icon: <MessageSquare className="h-10 w-10" />,bg_img:"/bg_discuss_forum.jpg", title: "Discussion Forums", description: "Engage in industry-specific forums and special interest groups. Share knowledge, ask questions, and contribute to meaningful conversations.", color: "blue", href: "#" },
-    { icon: <Star className="h-10 w-10" />,bg_img:"/bg_skill_exchange.jpg", title: "Skill Exchange Platform", description: "Offer your expertise or learn new skills from fellow alumni. Create a collaborative learning environment with peer-to-peer knowledge sharing.", color: "purple", href: "#" },
-    { icon: <Heart className="h-10 w-10" />,bg_img:"/bg_alumni_giving.jpg", title: "Alumni Giving & Causes", description: "Support meaningful causes and fundraising campaigns initiated by fellow alumni. Make a positive impact together as a community.", color: "emerald", href: "#" },
-  ]
+    {
+      icon: <Video className="h-10 w-10" />,
+      bg_img: "/bg_video_message.jpg",
+      title: "Video Messaging & Calls",
+      description:
+        "Connect face-to-face with alumni worldwide through HD video messaging and group calls. Share experiences and build meaningful relationships instantly.",
+      color: "blue",
+      href: "#",
+    },
+    {
+      icon: <Trophy className="h-10 w-10" />,
+      bg_img: "/bg_gemified.jpg",
+      title: "Gamified Networking",
+      description:
+        "Earn points, badges, and achievements as you engage with your alumni community. Make networking fun and rewarding with our comprehensive gamification system.",
+      color: "orange",
+      href: "#",
+    },
+    {
+      icon: <UserCheck className="h-10 w-10" />,
+      bg_img: "/bg_mentorship.jpg",
+      title: "Structured Mentorship",
+      description:
+        "Join curated mentoring programs or become a mentor yourself. Guide newcomers and learn from experienced professionals with goal-tracking tools.",
+      color: "purple",
+      href: "#",
+    },
+    {
+      icon: <Calendar className="h-10 w-10" />,
+      bg_img: "/bg_event_management.jpg",
+      title: "Event Management Hub",
+      description:
+        "Create, discover, and attend alumni events seamlessly. From virtual reunions to professional workshops, stay connected with interactive event features.",
+      color: "indigo",
+      href: "#",
+    },
+    {
+      icon: <Briefcase className="h-10 w-10" />,
+      bg_img: "/bg_career_opportunity.jpg",
+      title: "Career Opportunities",
+      description:
+        "Access exclusive job postings, internships, and freelance opportunities shared by alumni. Advance your career within your trusted network.",
+      color: "emerald",
+      href: "#",
+    },
+    {
+      icon: <MessageSquare className="h-10 w-10" />,
+      bg_img: "/bg_discuss_forum.jpg",
+      title: "Discussion Forums",
+      description:
+        "Engage in industry-specific forums and special interest groups. Share knowledge, ask questions, and contribute to meaningful conversations.",
+      color: "blue",
+      href: "#",
+    },
+    {
+      icon: <Star className="h-10 w-10" />,
+      bg_img: "/bg_skill_exchange.jpg",
+      title: "Skill Exchange Platform",
+      description:
+        "Offer your expertise or learn new skills from fellow alumni. Create a collaborative learning environment with peer-to-peer knowledge sharing.",
+      color: "purple",
+      href: "#",
+    },
+    {
+      icon: <Heart className="h-10 w-10" />,
+      bg_img: "/bg_alumni_giving.jpg",
+      title: "Alumni Giving & Causes",
+      description:
+        "Support meaningful causes and fundraising campaigns initiated by fellow alumni. Make a positive impact together as a community.",
+      color: "emerald",
+      href: "#",
+    },
+  ];
 
   useEffect(() => {
     if (!isPaused) {
       controls.start({
-        x: [x.get(), -3000], // adjust based on total width of cards
+        x: [x.get(), -12296], // adjust based on total width of cards
         transition: {
           repeat: Infinity,
-          duration: 20,
+          duration: 40,
           ease: "linear",
         },
-      })
+      });
     } else {
-      controls.stop() // pause at current position
+      controls.stop(); // pause at current position
     }
-  }, [isPaused, controls])
+  }, [isPaused]);
 
   return (
     <div
@@ -485,41 +571,48 @@ export function ContinuousSlidingCards() {
         className="flex gap-8 p-2 w-max cursor-grab active:cursor-grabbing"
         animate={controls}
         drag="x"
-        dragConstraints={{ left: -3000, right: 0 }} // allow dragging
+        dragConstraints={{ left: -12900, right: 0 }} // allow dragging
         style={{ x }}
       >
         {[...cards, ...cards].map((card, idx) => (
           // <Link key={idx} href={card.href} className="min-w-[280px] w-[500px]  flex-shrink-0">
-            <div key={idx} className=" h-[400px] w-[800px] bg-gradient-to-r from-violet-300 to-violet-200 via-pink-100 flex flex-row  flex-shrink-0 relative backdrop-blur-lg border border-white/30 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 group overflow-hidden" >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl">
-              </div>
+          <div
+            key={idx}
+            className=" h-[400px] w-[800px] bg-gradient-to-r from-violet-300 to-violet-200 via-pink-100 flex flex-row  flex-shrink-0 relative backdrop-blur-lg border border-white/30 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 group overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
 
-              <div className="relative z-10 flex flex-col items-center text-center w-[50%]" >
-                <img src={card.bg_img} alt="" className="h-full w-[450px] object-cover rounded-2xl"/>
-              </div>
-
-              <div className="w-[50%] relative grid-cols-1 z-10 flex flex-col items-center text-center">
-                <div className={`mb-8 p-5 text-white rounded-3xl  group-hover:scale-125 transition-all duration-500 shadow-lg group-hover:shadow-xl bg-gradient-to-br ${colorVariants[card.color as keyof typeof colorVariants]}`}>
-                  {card.icon}
-                </div>
-
-                <h3 className="text-2xl font-bold  mb-6 group-hover:text-gray-900 transition-colors">
-                  {card.title}
-                </h3>
-                <p className=" leading-relaxed text-lg group-hover:text-gray-700 transition-colors p-2">
-                  {card.description}
-                </p>
-              </div>
+            <div className="relative z-10 flex flex-col items-center text-center w-[50%]">
+              <img
+                src={card.bg_img}
+                alt=""
+                className="h-full w-[450px] object-cover rounded-2xl"
+              />
             </div>
+
+            <div className="w-[50%] relative grid-cols-1 z-10 flex flex-col items-center text-center">
+              <div
+                className={`mb-8 p-5 text-white rounded-3xl  group-hover:scale-125 transition-all duration-500 shadow-lg group-hover:shadow-xl bg-gradient-to-br ${
+                  colorVariants[card.color as keyof typeof colorVariants]
+                }`}
+              >
+                {card.icon}
+              </div>
+
+              <h3 className="text-2xl font-bold  mb-6 group-hover:text-gray-900 transition-colors">
+                {card.title}
+              </h3>
+              <p className=" leading-relaxed text-lg group-hover:text-gray-700 transition-colors p-2">
+                {card.description}
+              </p>
+            </div>
+          </div>
           // </Link>
         ))}
       </motion.div>
     </div>
-  )
+  );
 }
-
-
-
 
 // "use client";
 // import React, { useState } from "react";
@@ -548,12 +641,11 @@ export function ContinuousSlidingCards() {
 //   Zap
 // } from "lucide-react";
 
-
 // // Enhanced Feature Card Component with gradient borders and hover effects
 // const FeatureCard = ({ icon, title, description, index, color = "blue" }) => {
 //   const colorVariants = {
 //     blue: "from-blue-500 to-purple-600",
-//     green: "from-green-500 to-teal-600", 
+//     green: "from-green-500 to-teal-600",
 //     orange: "from-orange-500 to-red-600",
 //     purple: "from-purple-500 to-pink-600",
 //     indigo: "from-indigo-500 to-blue-600",
@@ -567,14 +659,14 @@ export function ContinuousSlidingCards() {
 //     >
 //       {/* Animated gradient border on hover */}
 //       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-      
+
 //       <div className="relative z-10 flex flex-col items-center text-center">
 //         <div className={`mb-8 p-5 bg-gradient-to-br ${colorVariants[color]} rounded-3xl text-white group-hover:scale-125 transition-all duration-500 shadow-lg group-hover:shadow-xl`}>
 //           {icon}
 //         </div>
 //         <h3 className="text-2xl font-bold text-gray-800 mb-6 group-hover:text-gray-900 transition-colors">{title}</h3>
 //         <p className="text-gray-600 leading-relaxed text-lg group-hover:text-gray-700 transition-colors">{description}</p>
-        
+
 //         {/* Decorative elements */}
 //         <div className="absolute top-4 right-4 w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full opacity-60 group-hover:opacity-100 transition-opacity"></div>
 //         <div className="absolute bottom-4 left-4 w-1 h-1 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full opacity-40 group-hover:opacity-80 transition-opacity"></div>
@@ -651,7 +743,7 @@ export function ContinuousSlidingCards() {
 //               <X className="h-7 w-7" />
 //             </button>
 //           </div>
-          
+
 //           <div className="flex-1 overflow-y-auto py-8 px-6">
 //             <nav className="space-y-3">
 //               {links.map((link) => (
@@ -664,7 +756,7 @@ export function ContinuousSlidingCards() {
 //               ))}
 //             </nav>
 //           </div>
-          
+
 //           <div className="border-t border-white/40 p-6 bg-gradient-to-r from-white/40 to-white/20">
 //             <div className="flex items-center space-x-4 mb-4">
 //               <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
@@ -710,7 +802,7 @@ export function ContinuousSlidingCards() {
 //     },
 //     {
 //       icon: <Users className="h-10 w-10" />,
-//       title: "Smart Alumni Directory", 
+//       title: "Smart Alumni Directory",
 //       description: "Discover and connect with alumni using intelligent search filters by location, industry, graduation year, and interests. Build your professional network effortlessly.",
 //       color: "green"
 //     },
@@ -805,15 +897,15 @@ export function ContinuousSlidingCards() {
 //               <Zap className="h-5 w-5 mr-2" />
 //               <span>Next-Generation Alumni Platform</span>
 //             </div>
-            
+
 //             <h1 className="text-6xl md:text-8xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-8 leading-tight">
 //               Alumni-Sphere
 //             </h1>
-            
+
 //             <p className="text-2xl md:text-3xl text-gray-700 max-w-4xl mb-12 leading-relaxed font-medium">
 //               The ultimate digital platform connecting graduates worldwide — fostering collaboration, enabling mentorship, and building lifelong professional relationships.
 //             </p>
-            
+
 //             {/* Enhanced CTA Buttons */}
 //             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
 //               <button
@@ -823,7 +915,7 @@ export function ContinuousSlidingCards() {
 //                 <span>Explore Features</span>
 //                 <ChevronDown className="h-6 w-6 animate-bounce" />
 //               </button>
-              
+
 //               <button className="bg-white/20 backdrop-blur-md border border-white/30 text-gray-800 font-bold py-5 px-10 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-3 text-lg hover:bg-white/30">
 //                 <Globe className="h-6 w-6" />
 //                 <span>Join Network</span>
@@ -842,11 +934,11 @@ export function ContinuousSlidingCards() {
 //               <TrendingUp className="h-5 w-5 mr-2" />
 //               <span>Comprehensive Features</span>
 //             </div>
-            
+
 //             <h2 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-8">
 //               Everything You Need to Connect
 //             </h2>
-            
+
 //             <p className="text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
 //               Discover powerful tools and features designed to strengthen alumni relationships, accelerate career growth, and build meaningful professional networks.
 //             </p>
