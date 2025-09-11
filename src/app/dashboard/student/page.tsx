@@ -374,5 +374,5 @@ function StudentSlidingCards() {
         ))}
       </motion.div>
     </div>
-  );
+);
 }
