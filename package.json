@@ -11,19 +11,25 @@
   },
   "dependencies": {
     "@radix-ui/react-navigation-menu": "^1.2.14",
+    "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.23.12",
-    "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.2",
+    "framer-motion": "^12.23.12",
     "imagekit": "^6.0.0",
     "lucide-react": "^0.542.0",
     "mongoose": "^8.18.1",
     "next": "15.5.2",
+<<<<<<< HEAD
 
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.62.0",
+=======
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-responsive-carousel": "^3.2.23",
+>>>>>>> 4b5334b33b82aa8257e6924e3ae771993518cd55
     "tailwind-merge": "^3.3.1"
 
   },
