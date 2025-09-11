@@ -22,8 +22,8 @@ const PostFilters: React.FC<Props> = ({
   onFilterByChange,
 }) => {
   return (
-    <div className="bg-white/90 backdrop-blur-lg border border-gray-200 rounded-2xl p-6 mb-8 shadow-lg">
-      <div className="flex flex-col lg:flex-row gap-4">
+    <div className="bg-white/90 backdrop-blur-lg border border-gray-200 rounded-2xl p-4 sm:p-6 mb-8 shadow-lg">
+      <div className="flex flex-col lg:flex-row gap-3 sm:gap-4">
         <div className="flex-1 relative">
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 h-5 w-5" />
           <input
@@ -35,11 +35,11 @@ const PostFilters: React.FC<Props> = ({
           />
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex gap-3 w-full lg:w-auto">
           <select
             value={sortBy}
             onChange={(e) => onSortByChange(e.target.value as SortOption)}
-            className="px-4 py-3 bg-white text-gray-800 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+            className="flex-1 min-w-0 px-4 py-3 bg-white text-gray-800 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
           >
             <option value="trending">🔥 Trending</option>
             <option value="newest">🕒 Newest</option>
@@ -50,7 +50,7 @@ const PostFilters: React.FC<Props> = ({
           <select
             value={filterBy}
             onChange={(e) => onFilterByChange(e.target.value as FilterOption)}
-            className="px-4 py-3 bg-white text-gray-800 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+            className="flex-1 min-w-0 px-4 py-3 bg-white text-gray-800 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
           >
             <option value="all">All Posts</option>
             <option value="open">Open Only</option>

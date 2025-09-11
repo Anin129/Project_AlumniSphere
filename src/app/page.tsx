@@ -3,8 +3,8 @@
 import React, { useState, ReactNode, useEffect } from "react";
 
 // -------------------for slider animation-------------------------------
-import Link from "next/link";
-import { motion, useAnimation, useMotionValue } from "framer-motion";
+import Link from "next/link";;
+import { motion, useAnimation,  useMotionValue } from "framer-motion";;
 import Autoplay from "embla-carousel-autoplay";
 
 import {
@@ -176,6 +176,26 @@ const Sidebar: React.FC<SidebarProps> = ({
       label: "Settings",
       icon: <Settings className="h-6 w-6" />,
     },
+    {
+      id: "opportunities",
+      label: "Opportunities",
+      icon: <Briefcase className="h-6 w-6" />,
+    },
+    {
+      id: "mentorship",
+      label: "Mentorship",
+      icon: <GraduationCap className="h-6 w-6" />,
+    },
+    {
+      id: "achievements",
+      label: "Achievements",
+      icon: <Trophy className="h-6 w-6" />,
+    },
+    {
+      id: "settings",
+      label: "Settings",
+      icon: <Settings className="h-6 w-6" />,
+    },
   ];
 
   return (
@@ -187,7 +207,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         />
       )}
       <div
-        className={`fixed top-0 left-0 h-full w-80 bg-white/95 backdrop-blur-xl border-r border-white/40 z-50 transform transition-all duration-500 ease-out shadow-2xl ${
+        className={`fixed top-16 left-0 min-h-screen w-80 bg-white/95 backdrop-blur-xl border-r border-white/40 z-50 transform transition-all duration-500 ease-out shadow-2xl ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -361,39 +381,50 @@ export default function AlumniSphere() {
       />
 
       {/* Hero Section */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center">
-        <div className=" animate-fade-in max-w-6xl">
-          {/* Badge */}
-          <div className="inline-flex items-center px-6 py-3 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-blue-700 font-semibold mb-8 shadow-lg">
-            <Zap className="h-5 w-5 mr-2" />
-            <span>Next-Generation Alumni Platform</span>
+      <div
+        className="relative z-10 flex flex-col items-center justify-center h-[800px] px-6 text-center"
+        style={{
+          backgroundImage: "url('/Alumni_bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Badge */}
+        <div className="inline-flex items-center px-6 py-3 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-blue-700 font-semibold mb-8 shadow-lg">
+          <Zap className="h-5 w-5 mr-2" />
+          <span>Next-Generation Alumni Platform</span>
+        </div>
+        <div className="flex flex-col md:flex-row gap-10 justify-center items-center">
+          <div className=" animate-fade-in max-w-6xl">
+            <h1 className="text-6xl md:text-8xl font-extrabold bg-gradient-to-r from-blue-700 via-purple-700 to-indigo-700 bg-clip-text text-transparent mb-8 leading-tight">
+              Alumni-Sphere
+            </h1>
+
+            <p className="text-2xl md:text-3xl text-gray-700 max-w-4xl mb-12 leading-relaxed font-medium">
+              The ultimate digital platform connecting graduates worldwide —
+              fostering collaboration, enabling mentorship, and building
+              lifelong professional relationships.
+            </p>
+
+            {/* CTA Buttons */}
           </div>
-
-          <h1 className="text-6xl md:text-8xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-8 leading-tight">
-            Alumni-Sphere
-          </h1>
-
-          <p className="text-2xl md:text-3xl text-gray-700 max-w-4xl mb-12 leading-relaxed font-medium">
-            The ultimate digital platform connecting graduates worldwide —
-            fostering collaboration, enabling mentorship, and building lifelong
-            professional relationships.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <button
-              onClick={scrollToFeatures}
-              className="bg-gradient-to-r from-blue-500 via-purple-600 to-indigo-600 hover:from-blue-600 hover:via-purple-700 hover:to-indigo-700 text-white font-bold py-5 px-10 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-3xl flex items-center space-x-3 text-lg"
-            >
-              <span>Explore Features</span>
-              <ChevronDown className="h-6 w-6 animate-bounce" />
-            </button>
-
-            <button className="bg-white/20 backdrop-blur-md border border-white/30 text-gray-800 font-bold py-5 px-10 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-3 text-lg hover:bg-white/30">
-              <Globe className="h-6 w-6" />
-              <span>Join Network</span>
-            </button>
+          <div className="side_image h-[500px] rounded-lg w-[500px] opacity-90 m-4">
+            <img src="/Front.png" alt="" className="rounded-2xl" />
           </div>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <button
+            onClick={scrollToFeatures}
+            className="bg-gradient-to-r from-blue-500 via-purple-600 to-indigo-600 hover:from-blue-600 hover:via-purple-700 hover:to-indigo-700 text-white font-bold py-5 px-10 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-3xl flex items-center space-x-3 text-lg"
+          >
+            <span>Explore Features</span>
+            <ChevronDown className="h-6 w-6 animate-bounce" />
+          </button>
+
+          <button className="bg-white/20 backdrop-blur-md border border-white/30 text-gray-800 font-bold py-5 px-10 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-3 text-lg hover:bg-white/30">
+            <Globe className="h-6 w-6" />
+            <span>Join Network</span>
+          </button>
         </div>
       </div>
 
@@ -458,9 +489,9 @@ export default function AlumniSphere() {
 }
 
 export function ContinuousSlidingCards() {
-  const [isPaused, setIsPaused] = useState(false);
-  const x = useMotionValue(0); // track x position
-  const controls = useAnimation();
+  const [isPaused, setIsPaused] = useState(false);;
+  const x = useMotionValue(0);; // track x position
+  const controls = useAnimation();;
 
   const colorVariants = {
     blue: "from-blue-500 to-purple-600",
@@ -563,7 +594,7 @@ export function ContinuousSlidingCards() {
 
   return (
     <div
-      className="relative w-[95vw] justify-center p-0 overflow-hidden bg-transparent from-gray-50 to-white py-2"
+      className="relative ml-[5vw] w-[86vw] justify-center p-0 overflow-hidden bg-transparent py-2"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >

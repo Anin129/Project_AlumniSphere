@@ -12,19 +12,20 @@
   "dependencies": {
     "@radix-ui/react-navigation-menu": "^1.2.14",
     "@radix-ui/react-slot": "^1.2.3",
+    "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
-    "framer-motion": "^12.23.12",
-    "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.2",
+    "framer-motion": "^12.23.12",
     "imagekit": "^6.0.0",
     "lucide-react": "^0.542.0",
     "mongoose": "^8.18.1",
     "next": "15.5.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-responsive-carousel": "^3.2.23",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
