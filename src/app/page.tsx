@@ -175,27 +175,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       id: "settings",
       label: "Settings",
       icon: <Settings className="h-6 w-6" />,
-    },
-    {
-      id: "opportunities",
-      label: "Opportunities",
-      icon: <Briefcase className="h-6 w-6" />,
-    },
-    {
-      id: "mentorship",
-      label: "Mentorship",
-      icon: <GraduationCap className="h-6 w-6" />,
-    },
-    {
-      id: "achievements",
-      label: "Achievements",
-      icon: <Trophy className="h-6 w-6" />,
-    },
-    {
-      id: "settings",
-      label: "Settings",
-      icon: <Settings className="h-6 w-6" />,
-    },
+    }
   ];
 
   return (
