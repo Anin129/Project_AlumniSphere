@@ -20,16 +20,11 @@
     "lucide-react": "^0.542.0",
     "mongoose": "^8.18.1",
     "next": "15.5.2",
-<<<<<<< HEAD
 
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
     "react-hook-form": "^7.62.0",
-=======
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-responsive-carousel": "^3.2.23",
->>>>>>> 4b5334b33b82aa8257e6924e3ae771993518cd55
     "tailwind-merge": "^3.3.1"
 
   },
