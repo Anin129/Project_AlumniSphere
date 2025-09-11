@@ -3,8 +3,17 @@
 import React, { useState, ReactNode, useEffect } from "react";
 
 // -------------------for slider animation-------------------------------
-import Link from "next/link";
-import { motion, useAnimation, useMotionValue } from "framer-motion";
+import Link from "next/link";;
+import { motion, useAnimation,  useMotionValue } from "framer-motion";;
+import Autoplay from "embla-carousel-autoplay";
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 // --------------------------------------
 
 import {
@@ -147,6 +156,26 @@ const Sidebar: React.FC<SidebarProps> = ({
     { id: "profile", label: "Profile", icon: <User className="h-6 w-6" /> },
     { id: "network", label: "Network", icon: <Users className="h-6 w-6" /> },
     { id: "events", label: "Events", icon: <Calendar className="h-6 w-6" /> },
+    {
+      id: "opportunities",
+      label: "Opportunities",
+      icon: <Briefcase className="h-6 w-6" />,
+    },
+    {
+      id: "mentorship",
+      label: "Mentorship",
+      icon: <GraduationCap className="h-6 w-6" />,
+    },
+    {
+      id: "achievements",
+      label: "Achievements",
+      icon: <Trophy className="h-6 w-6" />,
+    },
+    {
+      id: "settings",
+      label: "Settings",
+      icon: <Settings className="h-6 w-6" />,
+    },
     {
       id: "opportunities",
       label: "Opportunities",
@@ -460,9 +489,9 @@ export default function AlumniSphere() {
 }
 
 export function ContinuousSlidingCards() {
-  const [isPaused, setIsPaused] = useState(false);
-  const x = useMotionValue(0); // track x position
-  const controls = useAnimation();
+  const [isPaused, setIsPaused] = useState(false);;
+  const x = useMotionValue(0);; // track x position
+  const controls = useAnimation();;
 
   const colorVariants = {
     blue: "from-blue-500 to-purple-600",
@@ -551,10 +580,10 @@ export function ContinuousSlidingCards() {
   useEffect(() => {
     if (!isPaused) {
       controls.start({
-        x: [x.get(), -3000], // adjust based on total width of cards
+        x: [x.get(), -12296], // adjust based on total width of cards
         transition: {
           repeat: Infinity,
-          duration: 20,
+          duration: 40,
           ease: "linear",
         },
       });
@@ -573,7 +602,7 @@ export function ContinuousSlidingCards() {
         className="flex gap-8 p-2 w-max cursor-grab active:cursor-grabbing"
         animate={controls}
         drag="x"
-        dragConstraints={{ left: -3000, right: 0 }} // allow dragging
+        dragConstraints={{ left: -12900, right: 0 }} // allow dragging
         style={{ x }}
       >
         {[...cards, ...cards].map((card, idx) => (
