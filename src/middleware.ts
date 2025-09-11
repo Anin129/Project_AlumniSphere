@@ -7,7 +7,7 @@ export default function middleware(req: NextRequest) {
   const pathname = url.pathname;
 
   // protect /dashboard routes
-  if (pathname.startsWith("/dashboard")) {
+  if (pathname.startsWith("/login")) {
     // Example cookie check (adjust key to your session cookie name)
     const token = req.cookies.get("next-auth.session-token")?.value;
     if (!token) {
