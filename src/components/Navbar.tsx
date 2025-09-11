@@ -4,7 +4,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <div className="w-full h-16 bg-gray-800 text-white flex flex-row items-center justify-between px-4">
+    <div className="w-full sticky top-0 z-100 h-16 bg-gradient-to-r from-indigo-700/70 via-purple-600/70 to-blue-600/70 text-white flex flex-row items-center justify-between px-4 backdrop-blur-lg shadow-md">
       <div className="logo text-3xl flex font-bold">Alumni App</div>
       <div className="welcome">Welcome</div>
     </div>
