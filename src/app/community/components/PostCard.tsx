@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Clock, GraduationCap, User, MessageCircle, MoreHorizontal, CheckCircle } from 'lucide-react';
 import { Post } from '../types';
 import { VoteButtons } from './VoteButtons';
@@ -77,9 +78,11 @@ const PostCard: React.FC<Props> = ({ post, index }) => {
       </div>
 
       <div className="mb-4">
-        <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-gray-900 transition-colors cursor-pointer">
-          {post.title}
-        </h3>
+        <Link href={`/community/${post.id}`}>
+          <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-gray-900 transition-colors cursor-pointer">
+            {post.title}
+          </h3>
+        </Link>
         <p className="text-gray-600 leading-relaxed line-clamp-3">{post.content}</p>
       </div>
 
