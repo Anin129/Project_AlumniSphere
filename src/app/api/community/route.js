@@ -3,6 +3,7 @@ import connectDB from '../../../dbConfig/dbConfig';
 import CommunityPost from '../../../models/communityPostModel';
 import Alumni from '../../../models/alumniModel';
 import Student from '../../../models/studentModel';
+import { GamificationEvent, getAwardsForEvent } from '../../../models/gamificationModel';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -111,6 +112,47 @@ export async function POST(req) {
       authorModel: role,
       author: authorDoc._id,
     });
+
+    // Gamification: award for post_created
+    try {
+      const userType = role.toLowerCase() === 'alumni' ? 'alumni' : 'student';
+      const awards = getAwardsForEvent({ userType, eventType: 'post_created', quantity: 1 });
+
+      if (userType === 'student' && awards.stars > 0) {
+        authorDoc.totalStars = (authorDoc.totalStars || 0) + awards.stars;
+        authorDoc.level = Math.floor((authorDoc.totalStars || 0) / 50) + 1;
+        await authorDoc.save();
+      }
+      if (userType === 'alumni' && awards.points > 0) {
+        authorDoc.totalPoints = (authorDoc.totalPoints || 0) + awards.points;
+        authorDoc.level = Math.floor((authorDoc.totalPoints || 0) / 10) + 1;
+        const maybeNewBadges = authorDoc.checkBadgeEligibility?.() || [];
+        await authorDoc.save();
+        // Optionally attach earned badges to event metadata
+        await GamificationEvent.create({
+          user: { userId: authorDoc._id, userType },
+          eventType: 'post_created',
+          quantity: 1,
+          starsAwarded: 0,
+          pointsAwarded: awards.points,
+          relatedEntity: { entityId: created._id, entityType: 'community_post' },
+          metadata: { badgesEarned: maybeNewBadges?.map(b => b.name) || [] }
+        });
+      } else {
+        // Log student event as well
+        await GamificationEvent.create({
+          user: { userId: authorDoc._id, userType },
+          eventType: 'post_created',
+          quantity: 1,
+          starsAwarded: awards.stars || 0,
+          pointsAwarded: 0,
+          relatedEntity: { entityId: created._id, entityType: 'community_post' },
+        });
+      }
+    } catch (gamErr) {
+      console.error('Gamification award failed for community post:', gamErr);
+      // do not fail the request due to gamification
+    }
 
     const populated = await CommunityPost.findById(created._id)
       .populate({ path: 'author', select: 'name graduationYear' })

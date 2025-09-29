@@ -177,6 +177,41 @@ export async function POST(req, context) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 });
     }
 
+    // Gamification: award for comment creation
+    try {
+      const { GamificationEvent, getAwardsForEvent } = await import('../../../../models/gamificationModel.js');
+      
+      if (authorDoc) {
+        const userType = role.toLowerCase() === 'alumni' ? 'alumni' : 'student';
+        const awards = getAwardsForEvent({ userType, eventType: 'comment_created', quantity: 1 });
+
+        if (userType === 'student' && awards.stars > 0) {
+          authorDoc.totalStars = (authorDoc.totalStars || 0) + awards.stars;
+          authorDoc.level = Math.floor((authorDoc.totalStars || 0) / 50) + 1;
+          await authorDoc.save();
+        }
+        if (userType === 'alumni' && awards.points > 0) {
+          authorDoc.totalPoints = (authorDoc.totalPoints || 0) + awards.points;
+          authorDoc.level = Math.floor((authorDoc.totalPoints || 0) / 10) + 1;
+          const maybeNewBadges = authorDoc.checkBadgeEligibility?.() || [];
+          await authorDoc.save();
+        }
+
+        await GamificationEvent.create({
+          user: { userId: authorDoc._id, userType },
+          eventType: 'comment_created',
+          quantity: 1,
+          starsAwarded: userType === 'student' ? awards.stars : 0,
+          pointsAwarded: userType === 'alumni' ? awards.points : 0,
+          relatedEntity: { entityId: id, entityType: 'community_post' },
+          metadata: userType === 'alumni' ? { badgesEarned: maybeNewBadges?.map(b => b.name) || [] } : {}
+        });
+      }
+    } catch (gamErr) {
+      console.error('Gamification award failed for comment creation:', gamErr);
+      // do not fail the request due to gamification
+    }
+
     const last = (updated.comments || [])[updated.comments.length - 1];
     const response = {
       id: String(updated._id),

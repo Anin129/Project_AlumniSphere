@@ -181,15 +181,65 @@ export default function AlumniDashboard() {
         animate={{ x: [0, -20, 0], y: [0, 20, 0] }}
         transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
       />
-      {/* Hero Section */}
-      <div
-        className="relative z-10 flex flex-col items-center justify-center h-[700px] px-6 text-center"
-        style={{
-          backgroundImage: "url('/Alumni.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+      {/* Main Content */}
+      {activeTab === "profile" ? (
+        <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 p-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-8">
+              <h1 className="text-4xl font-bold text-gray-900 mb-4">Alumni Profile</h1>
+              <p className="text-lg text-gray-600">View your achievements, badges, and gamification progress</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Profile Info */}
+              <div className="bg-white rounded-2xl shadow-lg p-6">
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <User className="h-10 w-10 text-white" />
+                  </div>
+                  <h2 className="text-2xl font-semibold mb-2">Alumni Profile</h2>
+                  <p className="text-gray-600 mb-6">Track your points, badges, and contributions</p>
+                  
+                  <a 
+                    href="/profile/alumni" 
+                    className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  >
+                    View Alumni Profile
+                  </a>
+                </div>
+              </div>
+
+              {/* Gamification Stats */}
+              <div className="bg-white rounded-2xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold mb-4">Gamification System</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+                    <span className="font-medium">Points Earned</span>
+                    <span className="text-purple-600 font-bold">🎯 Earn points for engagement</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
+                    <span className="font-medium">Badges</span>
+                    <span className="text-orange-600 font-bold">🏆 Collect achievement badges</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                    <span className="font-medium">Level Progress</span>
+                    <span className="text-green-600 font-bold">📈 Level up every 10 points</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Hero Section */
+        <div
+          className="relative z-10 flex flex-col items-center justify-center h-[700px] px-6 text-center"
+          style={{
+            backgroundImage: "url('/Alumni.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
         <div className="absolute inset-0 bg-white/15 backdrop-blur-sm z-0 rounded-none" />
         <div className="animate-fade-in max-w-6xl relative z-10">
           <div className="inline-flex items-center px-6 py-3 rounded-full bg-white/40 backdrop-blur-md border border-white/30 text-amber-700 font-semibold mb-8 shadow-lg">
@@ -221,6 +271,7 @@ export default function AlumniDashboard() {
           </div>
         </div>
       </div>
+      )}
 
       {/* Features Section */}
       <section id="features" className="py-28 bg-gradient-to-b from-white via-green-50/30 to-blue-50/20">

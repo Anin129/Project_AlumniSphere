@@ -6,6 +6,7 @@ import React, { useState, ReactNode, useEffect } from "react";
 import Link from "next/link";;
 import { motion, useAnimation,  useMotionValue } from "framer-motion";;
 import Autoplay from "embla-carousel-autoplay";
+import { usePathname } from "next/navigation";
 
 import {
   Carousel,
@@ -39,6 +40,7 @@ import {
   Globe,
   Zap,
 } from "lucide-react";
+// Sidebar is globally available via SidebarHost in layout
 
 // ---------------- FeatureCard(initial) ----------------
 // type FeatureCardProps = {
@@ -96,152 +98,164 @@ import {
 // ----------------------- FeatureCard --------------------------
 
 // ---------------- SidebarLink ----------------
-type SidebarLinkProps = {
-  link: { id: string; label: string; icon: ReactNode };
-  isActive: boolean;
-  onClick: () => void;
-};
+// type SidebarLinkProps = {
+//   link: { id: string; label: string; icon: ReactNode; href?: string };
+//   isActive: boolean;
+//   onClick: () => void;
+// };
 
-const SidebarLink: React.FC<SidebarLinkProps> = ({
-  link,
-  isActive,
-  onClick,
-}) => (
-  <button
-    onClick={onClick}
-    className={`w-full flex items-center space-x-4 px-5 py-4 rounded-xl transition-all duration-300 group ${
-      isActive
-        ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg transform scale-105"
-        : "text-gray-600 hover:text-gray-800 hover:bg-white/60 hover:scale-102"
-    }`}
-  >
-    <span
-      className={`transition-all duration-300 ${
-        isActive ? "text-white" : "text-gray-500 group-hover:text-blue-500"
-      }`}
-    >
-      {link.icon}
-    </span>
-    <span className="font-semibold">{link.label}</span>
-  </button>
-);
+// const SidebarLink: React.FC<SidebarLinkProps> = ({
+//   link,
+//   isActive,
+//   onClick,
+// }) => {
+//   const content = (
+//     <div
+//       className={`w-full flex items-center space-x-4 px-5 py-4 rounded-xl transition-all duration-300 group ${
+//         isActive
+//           ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg transform scale-105"
+//           : "text-gray-600 hover:text-gray-800 hover:bg-white/60 hover:scale-102"
+//       }`}
+//     >
+//       <span
+//         className={`transition-all duration-300 ${
+//           isActive ? "text-white" : "text-gray-500 group-hover:text-blue-500"
+//         }`}
+//       >
+//         {link.icon}
+//       </span>
+//       <span className="font-semibold">{link.label}</span>
+//     </div>
+//   );
+
+//   if (link.href) {
+//     return (
+//       <Link href={link.href} onClick={onClick} className="w-full block">
+//         {content}
+//       </Link>
+//     );
+//   }
+
+//   return (
+//     <button onClick={onClick} className="w-full">
+//       {content}
+//     </button>
+//   );
+// };
 
 // ---------------- Logo ----------------
-const Logo: React.FC = () => (
-  <div className="flex items-center space-x-3 py-6 px-6">
-    <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-600 flex items-center justify-center shadow-lg">
-      <span className="text-white font-bold text-lg">AS</span>
-    </div>
-    <span className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-      Alumni-Sphere
-    </span>
-  </div>
-);
+// const Logo: React.FC = () => (
+//   <div className="flex items-center space-x-3 py-6 px-6">
+//     <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-600 flex items-center justify-center shadow-lg">
+//       <span className="text-white font-bold text-lg">AS</span>
+//     </div>
+//     <span className="font-bold text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+//       Alumni-Sphere
+//     </span>
+//   </div>
+// );
 
 // ---------------- Sidebar ----------------
-type SidebarProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
-};
+// type SidebarProps = {
+//   isOpen: boolean;
+//   onClose: () => void;
+//   activeTab: string;
+//   setActiveTab: (tab: string) => void;
+// };
 
-const Sidebar: React.FC<SidebarProps> = ({
-  isOpen,
-  onClose,
-  activeTab,
-  setActiveTab,
-}) => {
-  const links = [
-    { id: "profile", label: "Profile", icon: <User className="h-6 w-6" /> },
-    { id: "network", label: "Network", icon: <Users className="h-6 w-6" /> },
-    { id: "events", label: "Events", icon: <Calendar className="h-6 w-6" /> },
-    {
-      id: "opportunities",
-      label: "Opportunities",
-      icon: <Briefcase className="h-6 w-6" />,
-    },
-    {
-      id: "mentorship",
-      label: "Mentorship",
-      icon: <GraduationCap className="h-6 w-6" />,
-    },
-    {
-      id: "achievements",
-      label: "Achievements",
-      icon: <Trophy className="h-6 w-6" />,
-    },
-    {
-      id: "settings",
-      label: "Settings",
-      icon: <Settings className="h-6 w-6" />,
-    }
-  ];
+// const Sidebar: React.FC<SidebarProps> = ({
+//   isOpen,
+//   onClose,
+//   activeTab,
+//   setActiveTab,
+// }) => {
+//   const pathname = usePathname();
+//   const links = [
+//     { id: "home", label: "Home", icon: <Globe className="h-6 w-6" />, href: "/" },
+//     { id: "network", label: "Community", icon: <Users className="h-6 w-6" />, href: "/community" },
+//     { id: "events", label: "Events", icon: <Calendar className="h-6 w-6" />, href: "/events" },
+//     { id: "opportunities", label: "Jobs", icon: <Briefcase className="h-6 w-6" />, href: "/jobs" },
+//     { id: "fundraising", label: "Fundraising", icon: <Heart className="h-6 w-6" />, href: "/fundraising" },
+//     { id: "search", label: "Search", icon: <Search className="h-6 w-6" />, href: "/search" },
+//     { id: "dashboard", label: "Dashboard", icon: <Trophy className="h-6 w-6" />, href: "/dashboard/alumni" },
+//     { id: "mentorship", label: "Mentorship", icon: <GraduationCap className="h-6 w-6" /> },
+//     { id: "achievements", label: "Achievements", icon: <Trophy className="h-6 w-6" /> },
+//     { id: "settings", label: "Settings", icon: <Settings className="h-6 w-6" /> },
+//   ];
 
-  return (
-    <>
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
-          onClick={onClose}
-        />
-      )}
-      <div
-        className={`fixed top-16 left-0 min-h-screen w-80 bg-white/95 backdrop-blur-xl border-r border-white/40 z-50 transform transition-all duration-500 ease-out shadow-2xl ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between border-b border-white/40 bg-gradient-to-r from-white/50 to-white/30">
-            <Logo />
-            <button
-              onClick={onClose}
-              className="p-3 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all duration-300 mr-4 hover:scale-110"
-            >
-              <X className="h-7 w-7" />
-            </button>
-          </div>
+//   const isLinkActive = (link: { href?: string; id: string }) => {
+//     if (link.href) {
+//       return pathname === link.href || pathname.startsWith(`${link.href}/`);
+//     }
+//     return activeTab === link.id;
+//   };
 
-          <div className="flex-1 overflow-y-auto py-8 px-6">
-            <nav className="space-y-3">
-              {links.map((link) => (
-                <SidebarLink
-                  key={link.id}
-                  link={link}
-                  isActive={activeTab === link.id}
-                  onClick={() => setActiveTab(link.id)}
-                />
-              ))}
-            </nav>
-          </div>
-
-          <div className="border-t border-white/40 p-6 bg-gradient-to-r from-white/40 to-white/20">
-            <div className="flex items-center space-x-4 mb-4">
-              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                JD
-              </div>
-              <div>
-                <div className="text-lg font-bold text-gray-800">John Doe</div>
-                <div className="text-sm text-gray-600 flex items-center">
-                  <GraduationCap className="h-4 w-4 mr-1" />
-                  Alumni 2020
-                </div>
-              </div>
-            </div>
-            <button className="w-full flex items-center justify-center space-x-3 px-4 py-3 text-sm text-red-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-300 font-semibold">
-              <LogOut className="h-5 w-5" />
-              <span>Sign Out</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
+//   return (
+//     <>
+//       {isOpen && (
+//         <div
+//           className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
+//           onClick={onClose}
+//         />
+//       )}
+//       <div
+//         className={`fixed top-16 left-0 min-h-screen w-80 bg-white/95 backdrop-blur-xl border-r border-white/40 z-50 transform transition-all duration-500 ease-out shadow-2xl ${
+//           isOpen ? "translate-x-0" : "-translate-x-full"
+//         }`}
+//       >
+//         <div className="flex flex-col h-full">
+//           <div className="flex items-center justify-between border-b border-white/40 bg-gradient-to-r from-white/50 to-white/30">
+//             <Logo />
+//             <button
+//               onClick={onClose}
+//               className="p-3 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all duration-300 mr-4 hover:scale-110"
+//             >
+//               <X className="h-7 w-7" />
+//             </button>
+//           </div>
+//
+//           <div className="flex-1 overflow-y-auto py-8 px-6">
+//             <nav className="space-y-3">
+//               {links.map((link) => (
+//                 <SidebarLink
+//                   key={link.id}
+//                   link={link}
+//                   isActive={isLinkActive(link)}
+//                   onClick={() => {
+//                     if (!link.href) setActiveTab(link.id);
+//                     onClose();
+//                   }}
+//                 />
+//               ))}
+//             </nav>
+//           </div>
+//
+//           <div className="border-t border-white/40 p-6 bg-gradient-to-r from-white/40 to-white/20">
+//             <div className="flex items-center space-x-4 mb-4">
+//               <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+//                 JD
+//               </div>
+//               <div>
+//                 <div className="text-lg font-bold text-gray-800">John Doe</div>
+//                 <div className="text-sm text-gray-600 flex items-center">
+//                   <GraduationCap className="h-4 w-4 mr-1" />
+//                   Alumni 2020
+//                 </div>
+//               </div>
+//             </div>
+//             <button className="w-full flex items-center justify-center space-x-3 px-4 py-3 text-sm text-red-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-300 font-semibold">
+//               <LogOut className="h-5 w-5" />
+//               <span>Sign Out</span>
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
 
 // ---------------- Main Component ----------------
 export default function AlumniSphere() {
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("profile");
 
   const scrollToFeatures = () => {
@@ -342,23 +356,7 @@ export default function AlumniSphere() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Sidebar Toggle */}
-      {!isSidebarOpen && (
-        <button
-          onClick={() => setSidebarOpen(true)}
-          className="fixed top-[70px] left-6 z-50 bg-gradient-to-r from-blue-500 via-purple-600 to-indigo-600 text-white p-4 rounded-2xl shadow-2xl hover:scale-110 hover:shadow-3xl transition-all duration-300 border border-white/20 backdrop-blur-sm"
-        >
-          <span className="text-xl font-bold">☰</span>
-        </button>
-      )}
-
-      {/* Sidebar */}
-      <Sidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-      />
+      {/* Sidebar handled globally */}
 
       {/* Hero Section */}
       <div
@@ -401,11 +399,21 @@ export default function AlumniSphere() {
             <ChevronDown className="h-6 w-6 animate-bounce" />
           </button>
 
-          <button className="bg-white/20 backdrop-blur-md border border-white/30 text-gray-800 font-bold py-5 px-10 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-3 text-lg hover:bg-white/30">
-            <Globe className="h-6 w-6" />
-            <span>Join Network</span>
-          </button>
+          <Link href="/register">
+            <button className="bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-600 hover:to-violet-700 text-white font-bold py-5 px-10 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-3xl flex items-center space-x-3 text-lg">
+              <User className="h-6 w-6" />
+              <span>Register</span>
+            </button>
+          </Link>
+
+          <Link href="/login">
+            <button className="bg-white/20 backdrop-blur-md border border-white/30 text-gray-800 font-bold py-5 px-10 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center space-x-3 text-lg hover:bg-white/30">
+              <User className="h-6 w-6" />
+              <span>Login</span>
+            </button>
+          </Link>
         </div>
+
       </div>
 
       {/* Features Section */}

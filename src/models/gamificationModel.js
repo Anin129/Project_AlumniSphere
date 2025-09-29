@@ -92,7 +92,7 @@ export const getAwardsForEvent = ({ userType, eventType, quantity = 1 }) => {
   const alumniPoints = {
     login: 0, // alumni level is point-based via engagements; login affects streak/badges
     post_created: 1,
-    comment_created: 0,
+    comment_created: 2, // alumni get 2 points for comments
     discussion_created: 1,
     upvote_received: 1, // recognition for contributions
     answer_accepted: 2,

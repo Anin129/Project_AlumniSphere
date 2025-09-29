@@ -177,15 +177,65 @@ export default function StudentDashboard() {
         setActiveTab={setActiveTab}
       />
 
-      {/* Hero Section */}
-      <div
-        className="relative z-10 flex flex-col items-center justify-center h-[700px] px-6 text-center"
-        style={{
-          backgroundImage: "url('/Students.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+      {/* Main Content */}
+      {activeTab === "profile" ? (
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-8">
+              <h1 className="text-4xl font-bold text-gray-900 mb-4">Student Profile</h1>
+              <p className="text-lg text-gray-600">View your achievements, progress, and gamification stats</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Profile Info */}
+              <div className="bg-white rounded-2xl shadow-lg p-6">
+                <div className="text-center">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <User className="h-10 w-10 text-white" />
+                  </div>
+                  <h2 className="text-2xl font-semibold mb-2">Student Profile</h2>
+                  <p className="text-gray-600 mb-6">Track your progress and achievements</p>
+                  
+                  <a 
+                    href="/profile/student" 
+                    className="inline-block bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  >
+                    View Student Profile
+                  </a>
+                </div>
+              </div>
+
+              {/* Gamification Stats */}
+              <div className="bg-white rounded-2xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold mb-4">Gamification System</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                    <span className="font-medium">Stars Earned</span>
+                    <span className="text-blue-600 font-bold">⭐ Earn stars for engagement</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                    <span className="font-medium">Daily Streaks</span>
+                    <span className="text-green-600 font-bold">🔥 Build login streaks</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+                    <span className="font-medium">Level Progress</span>
+                    <span className="text-purple-600 font-bold">📈 Level up every 50 stars</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Hero Section */
+        <div
+          className="relative z-10 flex flex-col items-center justify-center h-[700px] px-6 text-center"
+          style={{
+            backgroundImage: "url('/Students.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
         <div className="absolute inset-0 bg-white/40 backdrop-blur-sm z-0 rounded-none" />
         <div className="animate-fade-in max-w-6xl relative z-10">
           <div className="inline-flex items-center px-6 py-3 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-green-700 font-semibold mb-8 shadow-lg">
@@ -227,6 +277,7 @@ export default function StudentDashboard() {
           </div>
         </div>
       </div>
+      )}
 
       {/* Features Section */}
       <section

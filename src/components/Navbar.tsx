@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { ArrowLeft, Heart } from "lucide-react";
+import Link from "next/link";
 
 
 const Navbar = () => {
@@ -52,7 +53,9 @@ const Navbar = () => {
             <ArrowLeft className="h-5 w-5" />
           </button>
         )}
-        <div className="logo text-2xl font-bold">Alumni App</div>
+        <Link href="/" className="logo text-2xl font-bold">
+          Alumni App
+        </Link>
       </div>
 
       <div className="flex items-center gap-2">
@@ -201,7 +204,7 @@ export default Navbar;
 //             </ul>
 //           </NavigationMenuContent>
 //         </NavigationMenuItem>
-        
+//         
 //       </NavigationMenuList>
 //     </NavigationMenu>
 //   )

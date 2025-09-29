@@ -27,15 +27,15 @@ Use `getAwardsForEvent({ userType, eventType, quantity })` to compute default aw
   - comment_created: 1 star
   - discussion_created: 2 stars
   - upvote_received: 0 stars (no award by default)
-  - answer_accepted: 5 stars
+ 
 
 - Alumni (points):
   - login: 0 points (streak affects badges instead)
   - post_created: 1 point
-  - comment_created: 0 points
+  - comment_created: 2 points
   - discussion_created: 1 point
   - upvote_received: 1 point
-  - answer_accepted: 2 points
+ 
 
 You can multiply by `quantity` to batch-award for bulk actions.
 

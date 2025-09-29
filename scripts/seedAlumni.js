@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 import connectDB from '../src/dbConfig/dbConfig.js';
-import { uploadImageToImageKit } from '../src/lib/imagekit.js';
 import mongoose from 'mongoose';
 import Alumni from '../src/models/alumniModel.js';
 
@@ -33,9 +32,9 @@ const avatarSources = [
   'https://i.pravatar.cc/300?img=10'
 ];
 
+// Skip ImageKit upload for now, use direct URLs
 async function uploadAvatarFromUrl(url, name) {
-  const { url: uploadedUrl } = await uploadImageToImageKit(url, `${name.replace(/\s+/g, '_').toLowerCase()}_avatar.jpg`, 'alumni');
-  return uploadedUrl;
+  return url; // Return the original URL without uploading to ImageKit
 }
 
 function generateAlumniData(index) {
@@ -66,7 +65,14 @@ function generateAlumniData(index) {
       twitter: `https://twitter.com/${emailHandle}${index + 1}`,
       website: `https://example.com/${emailHandle}${index + 1}`
     },
-    achievements: ['Dean\'s List', 'Open Source Contributor']
+    achievements: ['Dean\'s List', 'Open Source Contributor'],
+    // Add gamification data
+    totalPoints: Math.floor(Math.random() * 100) + 20, // 20-120 points
+    totalBadges: Math.floor(Math.random() * 8) + 2, // 2-10 badges
+    level: Math.floor(Math.random() * 5) + 1, // Level 1-5
+    dailyLoginStreak: Math.floor(Math.random() * 15), // 0-14 day streak
+    longestStreak: Math.floor(Math.random() * 30) + 10, // 10-40 day longest streak
+    totalLogins: Math.floor(Math.random() * 100) + 20 // 20-120 total logins
   };
 }
 

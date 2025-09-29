@@ -1,5 +1,4 @@
 import connectDB from '../src/dbConfig/dbConfig.js';
-import { uploadImageToImageKit } from '../src/lib/imagekit.js';
 import mongoose from 'mongoose';
 import Student from '../src/models/studentModel.js';
 
@@ -16,11 +15,12 @@ const randomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const randomYear = () => 2025 + Math.floor(Math.random() * 4); // expected graduation 2025-2028
 const randomPhone = () => `+91${Math.floor(9000000000 + Math.random() * 99999999)}`;
 
+// Use simple avatar URLs without ImageKit
 const avatarSources = Array.from({ length: 20 }, (_, i) => `https://i.pravatar.cc/300?img=${(i % 70) + 1}`);
 
+// Skip ImageKit upload for now, use direct URLs
 async function uploadAvatarFromUrl(url, name) {
-  const { url: uploadedUrl } = await uploadImageToImageKit(url, `${name.replace(/\s+/g, '_').toLowerCase()}_avatar.jpg`, 'students');
-  return uploadedUrl;
+  return url; // Return the original URL without uploading to ImageKit
 }
 
 function generateStudentData(index) {
@@ -51,7 +51,13 @@ function generateStudentData(index) {
     isSeekingInternship: Math.random() > 0.5,
     isSeekingJob: Math.random() > 0.7,
     portfolioUrl: `https://portfolio.example.com/${emailHandle}${index + 1}`,
-    achievements: ['Hackathon Participant']
+    achievements: ['Hackathon Participant'],
+    // Add gamification data
+    totalStars: Math.floor(Math.random() * 50) + 10, // 10-60 stars
+    level: Math.floor(Math.random() * 3) + 1, // Level 1-3
+    dailyLoginStreak: Math.floor(Math.random() * 10), // 0-9 day streak
+    longestStreak: Math.floor(Math.random() * 20) + 5, // 5-25 day longest streak
+    totalLogins: Math.floor(Math.random() * 50) + 10 // 10-60 total logins
   };
 }
 
